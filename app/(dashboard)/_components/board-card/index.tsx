@@ -19,7 +19,6 @@ interface BoardCardProps {
   title: string;
   imagUrl: string;
   authorId: string;
-
   createdAt: number;
   orgId: string;
   isFavorite: boolean;
@@ -30,7 +29,6 @@ export const BoardCard = ({
   title,
   imagUrl,
   authorId,
-
   createdAt,
   orgId,
   isFavorite,
