@@ -28,7 +28,7 @@ export const EmptyBoards = () => {
         router.push(`/board/${id}`);
         // TODO redirect to /id
       })
-      .catch(() => toast.error("somthing wrong "));
+      .catch(() => toast.error("something went wrong."));
   };
 
   return (
