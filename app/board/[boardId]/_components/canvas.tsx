@@ -194,31 +194,33 @@ export const Canvas = ({ boardId }: CanvasProps) => {
   );
 
   const onWheel = useCallback((e: React.WheelEvent) => {
-    setCamera((Camera) => ({
-      x: camera.x - e.deltaX,
-      y: camera.y - e.deltaY,
+    setCamera((prev) => ({
+      x: prev.x - e.deltaX,
+      y: prev.y - e.deltaY,
     }));
   }, []);
 
   const onPointerMove = useMutation(
     ({ setMyPresence }, e: React.PointerEvent) => {
-      e.preventDefault();
-      ///////////////////////////////
-      const current = pointerEventToCanvasPoint(e, camera);
+      setCamera((prevCamera) => {
+        const current = pointerEventToCanvasPoint(e, prevCamera);
 
-      if (canvasState.mode === CanvasMode.Pressing) {
-        startMultiSelection(current, canvasState.origin);
-      } else if (canvasState.mode === CanvasMode.SelectionNet) {
-        updateSelectionNet(current, canvasState.origin);
-      } else if (canvasState.mode === CanvasMode.Translating) {
-        translateSelectedLayers(current);
-      } else if (canvasState.mode === CanvasMode.Resizing) {
-        resizeSelectedLayer(current);
-      }
+        if (canvasState.mode === CanvasMode.Pressing) {
+          startMultiSelection(current, canvasState.origin);
+        } else if (canvasState.mode === CanvasMode.SelectionNet) {
+          updateSelectionNet(current, canvasState.origin);
+        } else if (canvasState.mode === CanvasMode.Translating) {
+          translateSelectedLayers(current);
+        } else if (canvasState.mode === CanvasMode.Resizing) {
+          resizeSelectedLayer(current);
+        }
 
-      setMyPresence({ cursor: current });
+        setMyPresence({ cursor: current });
+
+        return prevCamera; // we only read, no update
+      });
     },
-    [camera, canvasState, resizeSelectedLayer, translateSelectedLayers]
+    [canvasState, resizeSelectedLayer, translateSelectedLayers]
   );
 
   const onPointerLeave = useMutation(({ setMyPresence }) => {
@@ -321,13 +323,11 @@ export const Canvas = ({ boardId }: CanvasProps) => {
         onPointerMove={onPointerMove}
         onPointerLeave={onPointerLeave}
         onPointerDown={onPointerDown}
-        onPointerUp={onPointerUp}
-      >
+        onPointerUp={onPointerUp}>
         <g
           style={{
             transform: `translate(${camera.x}px,${camera.y}px)`,
-          }}
-        >
+          }}>
           {layerIds.map((layerId) => (
             <LayerPreview
               key={layerId}

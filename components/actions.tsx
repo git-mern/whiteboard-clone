@@ -11,7 +11,6 @@ import {
   DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import { Link2, Pencil, Trash2 } from "lucide-react";
 import { toast } from "sonner";
@@ -56,8 +55,7 @@ export const Actions = ({
         onClick={(e) => e.stopPropagation()}
         side={side}
         sideOffset={sideOffset}
-        className="w-60"
-      >
+        className="w-60">
         <DropdownMenuItem onClick={onCopyLink} className="p-3 cursor-pointer">
           <Link2 className="h-4 w-4 mr-2 " />
           Copy board Link
@@ -65,8 +63,7 @@ export const Actions = ({
 
         <DropdownMenuItem
           onClick={() => onOpen(id, title)}
-          className="p-3 cursor-pointer"
-        >
+          className="p-3 cursor-pointer">
           <Pencil className="h-4 w-4 mr-2 " />
           Rename board
         </DropdownMenuItem>
@@ -75,13 +72,11 @@ export const Actions = ({
           header="Delete board?"
           description="are you sure want to delete"
           disabled={pending}
-          onConfirm={onDelete}
-        >
+          onConfirm={onDelete}>
           <Button
             variant="ghost"
             // onClick={onDelete}
-            className="p-3 cursor-pointer w-full  justify-start font-normal text-sm"
-          >
+            className="p-3 cursor-pointer w-full  justify-start font-normal text-sm">
             <Trash2 className="h-4 w-4 mr-2 " />
             Delete
           </Button>
