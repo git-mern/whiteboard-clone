@@ -1,27 +1,24 @@
-"use client";
-
-import { useOrganization } from "@clerk/nextjs";
-import { EmptyOrg } from "./_components/empty-org";
 import { BoardList } from "./_components/board-list";
+import { EmptyOrg } from "./_components/empty-org";
+import { auth } from "@clerk/nextjs/server";
 
 interface DashboardPageProps {
-  searchParams?: {
+  searchParams: Promise<{
     search?: string;
     favorites?: string;
-  };
+  }>;
 }
 
-export default function DashboardPage(props: DashboardPageProps) {
-  const searchParams = props.searchParams ?? {};
-  const { organization } = useOrganization();
+export default async function DashboardPage(props: DashboardPageProps) {
+  // ✅ FIX 1: Await searchParams (Next.js passes a Promise)
+  const searchParams = await props.searchParams;
+
+  // ✅ FIX 2: Get active organization ID server-side
+  const { orgId } = await auth();
 
   return (
     <div className="flex-1 h-[calc(100%-80px)]">
-      {!organization ? (
-        <EmptyOrg />
-      ) : (
-        <BoardList orgId={organization.id} query={searchParams} />
-      )}
+      {!orgId ? <EmptyOrg /> : <BoardList orgId={orgId} query={searchParams} />}
     </div>
   );
 }
