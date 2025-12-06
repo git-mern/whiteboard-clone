@@ -2,10 +2,10 @@
 
 import qs from "query-string";
 import { Search } from "lucide-react";
-import { useDebounce } from "usehooks-ts";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
+import { useDebounce } from "@/hooks/use-debounce";
 
 export const SearchInput = () => {
   const router = useRouter();
