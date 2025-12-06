@@ -5,14 +5,16 @@ import { EmptyOrg } from "./_components/empty-org";
 import { BoardList } from "./_components/board-list";
 
 interface DashboardPageProps {
-  searchParams: {
+  searchParams?: {
     search?: string;
     favorites?: string;
   };
 }
 
-const DashboardPage = ({ searchParams }: DashboardPageProps) => {
+export default function DashboardPage(props: DashboardPageProps) {
+  const searchParams = props.searchParams ?? {};
   const { organization } = useOrganization();
+
   return (
     <div className="flex-1 h-[calc(100%-80px)]">
       {!organization ? (
@@ -22,6 +24,4 @@ const DashboardPage = ({ searchParams }: DashboardPageProps) => {
       )}
     </div>
   );
-};
-
-export default DashboardPage;
+}
